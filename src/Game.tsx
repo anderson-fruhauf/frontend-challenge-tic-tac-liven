@@ -65,7 +65,8 @@ const Game: React.FC = () => {
     currentBoard,
     stepNumber,
     nextPlayer,
-    computeMove
+    computeMove,
+    restartGame
   } = useGameState();
 
   const handleSquareClick = (squareId: number) => {
@@ -87,6 +88,12 @@ const Game: React.FC = () => {
     }
   };
 
+  const checkGameIsEnded = () => {
+    const winner = calculateWinner(currentBoard);
+
+    return winner || stepNumber === 9
+  }
+
   return (
     <>
       <h1>
@@ -102,6 +109,9 @@ const Game: React.FC = () => {
         <div className="game-info">
           <div>Current step: {stepNumber}</div>
           <div>{renderStatusMessage()}</div>
+          {
+            checkGameIsEnded() && <button className="restart-button" onClick={restartGame}>Restart Game</button>
+          }
         </div>
       </div>
     </>

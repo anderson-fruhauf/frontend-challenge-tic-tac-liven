@@ -12,17 +12,29 @@
  type GameState = {
    currentBoard: string[],
    stepNumber: number,
-   nextPlayer: Players
+   nextPlayer: Players,
+   firstPlayer: Players
  }
- 
- let emptyBoard = Array(9).fill(null);
+
  const useGameState = () => {
-   let firstPlayer = Players.CROSS
    const [state, setState] = useState<GameState>({
-     currentBoard: emptyBoard,
-     nextPlayer: Players.CROSS,
-     stepNumber: 0
+     currentBoard: Array(9).fill(null),
+     stepNumber: 0,
+     firstPlayer: Players.CROSS,
+     nextPlayer: Players.CROSS
    })
+
+   const restartGame = () => {
+    const nextFirstPlayer = state.firstPlayer === Players.CIRCLE ? Players.CROSS : Players.CIRCLE
+
+    setState({
+      ...state,
+      nextPlayer: nextFirstPlayer,
+      firstPlayer: nextFirstPlayer,
+      currentBoard: Array(9).fill(null),
+      stepNumber: 0
+    })
+   }
  
    const computeMove = (squareId: number) => {
      if(state.currentBoard[squareId] == null){
@@ -40,8 +52,9 @@
  
    return {
      ...state,
-     computeMove
+     computeMove,
+     restartGame
    }
  }
- 
+
  export default useGameState;
