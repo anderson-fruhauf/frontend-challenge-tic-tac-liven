@@ -73,7 +73,7 @@ const Game: React.FC = () => {
       // Game over or square already handled
       return;
     }
-    computeMove(nextPlayer, squareId);
+    computeMove(squareId);
   };
 
   const renderStatusMessage = () => {
@@ -83,7 +83,7 @@ const Game: React.FC = () => {
     } else if (stepNumber === 9) {
       return "Draw: Game over";
     } else {
-      return "Next player: " + (nextPlayer === 'X' ? "❌" : "⭕");
+      return `Next player: ${nextPlayer}`;
     }
   };
 
