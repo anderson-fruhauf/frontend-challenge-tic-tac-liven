@@ -5,33 +5,41 @@
  import { useState } from "react";
 
  enum Players {
-  SQUARE = "❌",
+  CROSS = "❌",
   CIRCLE = "⭕"
+ }
+
+ type GameState = {
+   currentBoard: string[],
+   stepNumber: number,
+   nextPlayer: Players
  }
  
  let emptyBoard = Array(9).fill(null);
  const useGameState = () => {
-   const [currentBoard, setCurrentBoard] = useState(emptyBoard)
-   const [stepNumber, setStepNumber] = useState(0);
-   const [nextPlayer, setNextPlayer] = useState<Players>(Players.SQUARE)
+   let firstPlayer = Players.CROSS
+   const [state, setState] = useState<GameState>({
+     currentBoard: emptyBoard,
+     nextPlayer: Players.CROSS,
+     stepNumber: 0
+   })
  
    const computeMove = (squareId: number) => {
-     if(currentBoard[squareId] == null){
-       currentBoard[squareId] = nextPlayer
+     if(state.currentBoard[squareId] == null){
+       let nextBoardState = state.currentBoard
+       nextBoardState[squareId] = state.nextPlayer
+
+       setState({
+         ...state,
+         currentBoard: nextBoardState,
+         nextPlayer: state.nextPlayer === Players.CROSS ? Players.CIRCLE : Players.CROSS,
+         stepNumber: state.stepNumber + 1
+       })
      }
- 
-     if (nextPlayer === Players.SQUARE) {
-       setNextPlayer(Players.CIRCLE)
-     } else {      
-       setNextPlayer(Players.SQUARE)
-     }
-     setStepNumber((currentStepNumber) => currentStepNumber + 1);
    }
  
    return {
-     nextPlayer,
-     stepNumber,
-     currentBoard,
+     ...state,
      computeMove
    }
  }
