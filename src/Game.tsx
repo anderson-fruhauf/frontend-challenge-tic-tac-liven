@@ -40,7 +40,7 @@ const Board = ({ squares, onSquareClick } : any) => {
   };
 
   return (
-    <div>
+    <div data-testid='board'>
       <div className="board-row">
         {renderSquare(0)}
         {renderSquare(1)}
@@ -110,7 +110,7 @@ const Game: React.FC = () => {
           <div>Current step: {stepNumber}</div>
           <div>{renderStatusMessage()}</div>
           {
-            checkGameIsEnded() && <button className="restart-button" onClick={restartGame}>Restart Game</button>
+            checkGameIsEnded() && <button className="restart-button" data-testid="restart" onClick={restartGame}>Restart Game</button>
           }
         </div>
       </div>
